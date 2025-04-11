@@ -84,19 +84,19 @@ public class TicTacToeBoard {
 				&& grid[i][j][2][0].equals(grid[i][j][2][2])) {
 			return grid[i][j][2][0];
 		} else if (grid[i][j][0][0] != " " && grid[i][j][0][0].equals(grid[i][j][1][0])
-				&& grid[i][j][1][0].equals(grid[i][j][2][0])) {
+				&& grid[i][j][0][0].equals(grid[i][j][2][0])) {
 			return grid[i][j][0][0];
-		} else if (grid[i][j][0][1] != " " && grid[i][j][0][1].equals(grid[i][j][1][1])
+		} else if (grid[i][j][1][1] != " " && grid[i][j][0][1].equals(grid[i][j][1][1])
 				&& grid[i][j][1][1].equals(grid[i][j][2][1])) {
-			return grid[i][j][0][1];
+			return grid[i][j][1][1];
 		} else if (grid[i][j][0][2] != " " && grid[i][j][0][2].equals(grid[i][j][1][2])
-				&& grid[i][j][1][2].equals(grid[i][j][2][2])) {
+				&& grid[i][j][0][2].equals(grid[i][j][2][2])) {
 			return grid[i][j][0][2];
 		} else if (grid[i][j][0][0] != " " && grid[i][j][0][0].equals(grid[i][j][1][1])
-				&& grid[i][j][1][1].equals(grid[i][j][2][2])) {
+				&& grid[i][j][0][0].equals(grid[i][j][2][2])) {
 			return grid[i][j][0][0];
 		} else if (grid[i][j][0][2] != " " && grid[i][j][0][2].equals(grid[i][j][1][1])
-				&& grid[i][j][1][1].equals(grid[i][j][2][0])) {
+				&& grid[i][j][0][2].equals(grid[i][j][2][0])) {
 			return grid[i][j][0][2];
 		} else {
 			return " ";
@@ -135,7 +135,40 @@ public class TicTacToeBoard {
 		}
 		return total;
 	}
-
+	private int cornerCheck(int i, int j, TicTacToeBoard test, String team) {
+		int score=0;
+		String[] arr = { test.getGrid()[i][j][0][0], test.getGrid()[i][j][1][0],test.getGrid()[i][j][2][0] };
+		score += check(arr, team);
+		arr[0] = test.getGrid()[i][j][0][1];
+		arr[1] = test.getGrid()[i][j][1][1];
+		arr[2] = test.getGrid()[i][j][2][1];
+		score += check(arr, team);
+		arr[0] = test.getGrid()[i][j][0][2];
+		arr[1] = test.getGrid()[i][j][1][2];
+		arr[2] = test.getGrid()[i][j][2][2];
+		score += check(arr, team);
+		arr[0] = test.getGrid()[i][j][0][0];
+		arr[1] = test.getGrid()[i][j][1][1];
+		arr[2] = test.getGrid()[i][j][2][2];
+		score += check(arr, team);
+		arr[0] = test.getGrid()[i][j][0][2];
+		arr[1] = test.getGrid()[i][j][1][1];
+		arr[2] = test.getGrid()[i][j][2][0];
+		score += check(arr, team);
+		arr[0] = test.getGrid()[i][j][0][0];
+		arr[1] = test.getGrid()[i][j][0][1];
+		arr[2] = test.getGrid()[i][j][0][2];
+		score += check(arr, team);
+		arr[0] = test.getGrid()[i][j][1][0];
+		arr[1] = test.getGrid()[i][j][1][1];
+		arr[2] = test.getGrid()[i][j][1][2];
+		score += check(arr, team);
+		arr[0] = test.getGrid()[i][j][2][0];
+		arr[1] = test.getGrid()[i][j][2][1];
+		arr[2] = test.getGrid()[i][j][2][2];
+		score += check(arr, team);
+		return score;
+	}
 	public int score(String[][] wins, int corner, int move, int player, String team) {
 		TicTacToeBoard test = new TicTacToeBoard(this);
 		int score = 0;
@@ -148,58 +181,14 @@ public class TicTacToeBoard {
 				score += 50;
 				wins[i][j]=team;
 			}
-			String[] arr = { test.getGrid()[i][j][0][0], test.getGrid()[i][j][1][0],test.getGrid()[i][j][2][0] };
-			score += check(arr, team);
-			arr[0] = test.getGrid()[i][j][0][1];
-			arr[1] = test.getGrid()[i][j][1][1];
-			arr[2] = test.getGrid()[i][j][2][1];
-			score += check(arr, team);
-			arr[0] = test.getGrid()[i][j][0][2];
-			arr[1] = test.getGrid()[i][j][1][2];
-			arr[2] = test.getGrid()[i][j][2][2];
-			score += check(arr, team);
-			arr[0] = test.getGrid()[i][j][0][0];
-			arr[1] = test.getGrid()[i][j][1][1];
-			arr[2] = test.getGrid()[i][j][2][2];
-			score += check(arr, team);
-			arr[0] = test.getGrid()[i][j][0][2];
-			arr[1] = test.getGrid()[i][j][1][1];
-			arr[2] = test.getGrid()[i][j][2][0];
-			score += check(arr, team);
-			arr[0] = test.getGrid()[i][j][0][0];
-			arr[1] = test.getGrid()[i][j][0][1];
-			arr[2] = test.getGrid()[i][j][0][2];
-			score += check(arr, team);
-			arr[0] = test.getGrid()[i][j][1][0];
-			arr[1] = test.getGrid()[i][j][1][1];
-			arr[2] = test.getGrid()[i][j][1][2];
-			score += check(arr, team);
-			arr[0] = test.getGrid()[i][j][2][0];
-			arr[1] = test.getGrid()[i][j][2][1];
-			arr[2] = test.getGrid()[i][j][2][2];
-			score += check(arr, team);
-			arr[0] = wins[0][0];
-			arr[1] = wins[1][0];
-			arr[2] = wins[2][0];
-			score += check(arr, team) * 10;
-			arr[0] = wins[0][1];
-			arr[1] = wins[1][1];
-			arr[2] = wins[2][1];
-			score += check(arr, team) * 10;
-			arr[0] = wins[0][2];
-			arr[1] = wins[1][2];
-			arr[2] = wins[2][2];
-			score += check(arr, team) * 10;
-			arr[0] = wins[0][0];
-			arr[1] = wins[1][1];
-			arr[2] = wins[2][2];
-			score += check(arr, team) * 10;
-			arr[0] = wins[0][2];
-			arr[1] = wins[1][1];
-			arr[2] = wins[2][0];
-			score += check(arr, team) * 10;
+			score+=cornerCheck(i,j,test,team);
+			//System.out.println(score);
+			score+=cornerCheck((move-1)/3,(move-1)%3,test,team);
+			if (!wins[(move-1)/3][(move-1)%3].equals(" ")) {
+				score-=10;
+			}
 		}
-		System.out.println(score);
+		//System.out.println(score);
 		return score;
 	}
 }
