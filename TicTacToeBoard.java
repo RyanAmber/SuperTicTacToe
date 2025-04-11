@@ -115,9 +115,12 @@ public class TicTacToeBoard {
 		return true;
 	}
 
-	private int check(String[] arr, String team) {
+	private int check(String[] arr, String team, int type) {
 		if (sum(arr, team) == 2) {
+			if (type==1)
 			return 10;
+			else
+			return -10;
 		} else if (sum(arr, team) == -2) {
 			return -15;
 		}
@@ -135,38 +138,38 @@ public class TicTacToeBoard {
 		}
 		return total;
 	}
-	private int cornerCheck(int i, int j, TicTacToeBoard test, String team) {
+	private int cornerCheck(int i, int j, TicTacToeBoard test, String team, int type) {
 		int score=0;
 		String[] arr = { test.getGrid()[i][j][0][0], test.getGrid()[i][j][1][0],test.getGrid()[i][j][2][0] };
-		score += check(arr, team);
+		score += check(arr, team,type);
 		arr[0] = test.getGrid()[i][j][0][1];
 		arr[1] = test.getGrid()[i][j][1][1];
 		arr[2] = test.getGrid()[i][j][2][1];
-		score += check(arr, team);
+		score += check(arr, team,type);
 		arr[0] = test.getGrid()[i][j][0][2];
 		arr[1] = test.getGrid()[i][j][1][2];
 		arr[2] = test.getGrid()[i][j][2][2];
-		score += check(arr, team);
+		score += check(arr, team,type);
 		arr[0] = test.getGrid()[i][j][0][0];
 		arr[1] = test.getGrid()[i][j][1][1];
 		arr[2] = test.getGrid()[i][j][2][2];
-		score += check(arr, team);
+		score += check(arr, team,type);
 		arr[0] = test.getGrid()[i][j][0][2];
 		arr[1] = test.getGrid()[i][j][1][1];
 		arr[2] = test.getGrid()[i][j][2][0];
-		score += check(arr, team);
+		score += check(arr, team,type);
 		arr[0] = test.getGrid()[i][j][0][0];
 		arr[1] = test.getGrid()[i][j][0][1];
 		arr[2] = test.getGrid()[i][j][0][2];
-		score += check(arr, team);
+		score += check(arr, team,type);
 		arr[0] = test.getGrid()[i][j][1][0];
 		arr[1] = test.getGrid()[i][j][1][1];
 		arr[2] = test.getGrid()[i][j][1][2];
-		score += check(arr, team);
+		score += check(arr, team,type);
 		arr[0] = test.getGrid()[i][j][2][0];
 		arr[1] = test.getGrid()[i][j][2][1];
 		arr[2] = test.getGrid()[i][j][2][2];
-		score += check(arr, team);
+		score += check(arr, team,type);
 		return score;
 	}
 	public int score(String[][] wins, int corner, int move, int player, String team) {
@@ -181,9 +184,9 @@ public class TicTacToeBoard {
 				score += 50;
 				wins[i][j]=team;
 			}
-			score+=cornerCheck(i,j,test,team);
+			score+=cornerCheck(i,j,test,team,1);
 			//System.out.println(score);
-			score+=cornerCheck((move-1)/3,(move-1)%3,test,team);
+			score+=cornerCheck((move-1)/3,(move-1)%3,test,team,2);
 			if (!wins[(move-1)/3][(move-1)%3].equals(" ")) {
 				score-=10;
 			}

@@ -65,13 +65,13 @@ public class TicTacToeGame {
 			while (!valid.contains(answer)) {
 				answer = s.nextInt();
 			}
-		} else if (player == 2) {
+		} else if (player == 2||player==3) {
 			while (!valid.contains(answer)) {
 				answer = (int) (Math.random() * 9 + 1);
 			}
 		}else if(player==3) {
 			for (int i=1;i<=9;i++) {
-				if (valid.contains(i))
+				//if (valid.contains(i))
 			}
 		}
 		return answer;
