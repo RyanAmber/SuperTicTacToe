@@ -47,7 +47,7 @@ public class TicTacToeGame {
 		return answer;
 	}
 
-	public static int getCorner(TicTacToeBoard b, String[][] wins, int player, Scanner s) {
+	public static int getCorner(TicTacToeBoard b, String[][] wins, int player, Scanner s, String team) {
 		int answer = -1;
 		List<Integer> valid = new ArrayList<Integer>();
 		for (int i = 0; i < 3; i++) {
@@ -65,14 +65,26 @@ public class TicTacToeGame {
 			while (!valid.contains(answer)) {
 				answer = s.nextInt();
 			}
-		} else if (player == 2||player==3) {
+		} else if (player == 2) {
 			while (!valid.contains(answer)) {
 				answer = (int) (Math.random() * 9 + 1);
 			}
-		}else if(player==3) {
-			for (int i=1;i<=9;i++) {
-				//if (valid.contains(i))
+		} else if (player == 3||player==4) {
+			int topScore = -100;
+			List<Integer> options = new ArrayList<Integer>();
+			for (int i = 1; i <= 9; i++) {
+				if (valid.contains(i)) {
+					int attempt = b.cornerScore(i, player, team, wins);
+					if (attempt > topScore) {
+						options.clear();
+						options.add(i);
+						topScore = attempt;
+					} else if (attempt == topScore) {
+						options.add(i);
+					}
+				}
 			}
+			answer=options.get((int)(Math.random()*options.size()));
 		}
 		return answer;
 	}
@@ -119,7 +131,7 @@ public class TicTacToeGame {
 				b.print(wins);
 				System.out.println("Board:" + corner);
 				if (!wins[(corner - 1) / 3][(corner - 1) % 3].equals(" ")) {
-					corner = getCorner(b, wins, player == 1 ? p1 : p2, s);
+					corner = getCorner(b, wins, player == 1 ? p1 : p2, s, player == 1 ? "X" : "O");
 					if (corner == -1) {
 						break;
 					}
