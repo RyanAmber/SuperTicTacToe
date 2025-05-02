@@ -18,13 +18,15 @@ public class TicTacToeGame {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		} else if (player == 3) {
+		} else if (player == 3 || player == 4) {
 			int score = -1000;
 			int max = score;
 			List<Integer> possible = new ArrayList<Integer>();
 			for (int i = 1; i <= 9; i++) {
 				if (b.isValid(corner, i)) {
-					score = b.score(wins, corner, i, 3, team);
+					score = b.score(wins, corner, i, player, team);
+					if (timer==0)
+					System.out.print(score+" ");
 					if (score > max) {
 						possible = new ArrayList<Integer>();
 						possible.add(i);
@@ -32,6 +34,11 @@ public class TicTacToeGame {
 					} else if (score == max) {
 						possible.add(i);
 					}
+				}else if(timer==0) {
+					System.out.println("   ");
+				}
+				if (i%3==0&&timer==0) {
+					System.out.println();
 				}
 			}
 			if (possible.size() == 0) {
@@ -69,8 +76,8 @@ public class TicTacToeGame {
 			while (!valid.contains(answer)) {
 				answer = (int) (Math.random() * 9 + 1);
 			}
-		} else if (player == 3||player==4) {
-			int topScore = -100;
+		} else if (player == 3 || player == 4) {
+			int topScore = -500;
 			List<Integer> options = new ArrayList<Integer>();
 			for (int i = 1; i <= 9; i++) {
 				if (valid.contains(i)) {
@@ -84,7 +91,7 @@ public class TicTacToeGame {
 					}
 				}
 			}
-			answer=options.get((int)(Math.random()*options.size()));
+			answer = options.get((int) (Math.random() * options.size()));
 		}
 		return answer;
 	}
@@ -104,6 +111,12 @@ public class TicTacToeGame {
 		if (s.nextInt() == 2) {
 			dev = true;
 		}
+		int firstScore1 = 0;
+		int firstScore2 = 0;
+		int firstTotal1 = 0;
+		int firstTotal2 = 0;
+		int score1 = 0;
+		int score2 = 0;
 		int total1 = 0;
 		int total2 = 0;
 		int total3 = 0;
@@ -111,61 +124,99 @@ public class TicTacToeGame {
 			System.out.println("How many games should be played?");
 			games = s.nextInt();
 		}
-		System.out.println("Who is player 1: Human[1], Easy[2], Hard[3]");
+		System.out.println("Who is player 1: Human[1], Easy[2], Hard[3], Extreme[4]");
 		int p1 = s.nextInt();
-		System.out.println("Who is player 2: Human[1], Easy[2], Hard[3]");
+		System.out.println("Who is player 2: Human[1], Easy[2], Hard[3], Extreme[4]");
 		int p2 = s.nextInt();
 		System.out.println("Grid is");
 		System.out.println("1 2 3\n4 5 6\n7 8 9");
 		System.out.println("This is for both individual boards and the full grid");
-		for (int i = 0; i < games; i++) {
-			TicTacToeBoard b = new TicTacToeBoard();
-			int corner = 5;
-			int player = 1;
-			for (int k = 0; k < 3; k++) {
-				for (int j = 0; j < 3; j++) {
-					wins[k][j] = " ";
-				}
-			}
-			while (winner(wins).equals(" ")) {
-				b.print(wins);
-				System.out.println("Board:" + corner);
-				if (!wins[(corner - 1) / 3][(corner - 1) % 3].equals(" ")) {
-					corner = getCorner(b, wins, player == 1 ? p1 : p2, s, player == 1 ? "X" : "O");
-					if (corner == -1) {
-						break;
+		for (int round = 0; round < 2 && (dev || round == 0); round++) {
+			for (int i = 0; i < (games / 2 == 0 ? 1 : games / 2); i++) {
+				TicTacToeBoard b = new TicTacToeBoard();
+				int corner = 5;
+				int player = 1 + round;
+				for (int k = 0; k < 3; k++) {
+					for (int j = 0; j < 3; j++) {
+						wins[k][j] = " ";
 					}
 				}
-				int move = getMove(b, corner, player == 1 ? p1 : p2, s, player == 1 ? "X" : "O", wins, dev ? 0 : 1000);
-				b.makeMove(corner, move, player == 1 ? "X" : "O");
-				if (b.winner(corner) != " " || full(b.getGrid()[(corner - 1) / 3][(corner - 1) % 3])) {
-					if (full(b.getGrid()[(corner - 1) / 3][(corner - 1) % 3])) {
-						wins[(corner - 1) / 3][(corner - 1) % 3] = "C";
-					} else {
-						wins[(corner - 1) / 3][(corner - 1) % 3] = b.winner(corner);
+				while (winner(wins).equals(" ")) {
+					b.print(wins);
+					System.out.println("Board:" + corner);
+					if (!wins[(corner - 1) / 3][(corner - 1) % 3].equals(" ")) {
+						corner = getCorner(b, wins, player == 1 ? p1 : p2, s, player == 1 ? "X" : "O");
+						if (corner == -1) {
+							break;
+						}
+						System.out.println("Chosen Board:" + corner);
 					}
-					// System.out.println("FOUND IT");
-				}
-				corner = move;
+					int move = getMove(b, corner, player == 1 ? p1 : p2, s, player == 1 ? "X" : "O", wins,
+							dev ? 0 : 1000);
+					b.makeMove(corner, move, player == 1 ? "X" : "O");
+					if (b.winner(corner) != " " || full(b.getGrid()[(corner - 1) / 3][(corner - 1) % 3])) {
+						if (b.winner(corner) == " " && full(b.getGrid()[(corner - 1) / 3][(corner - 1) % 3])) {
+							wins[(corner - 1) / 3][(corner - 1) % 3] = "C";
+						} else {
+							wins[(corner - 1) / 3][(corner - 1) % 3] = b.winner(corner);
+						}
+						// System.out.println("FOUND IT");
+					}
+					corner = move;
 
-				player = player == 1 ? 2 : 1;
+					player = player == 1 ? 2 : 1;
+				}
+				b.print(wins);
+				if (winner(wins) == "X") {
+					total1++;
+					System.out.println("X wins");
+				} else if (winner(wins) == "O") {
+					total2++;
+					System.out.println("O wins");
+
+				} else {
+					total3++;
+					System.out.println("Tie Game");
+				}
+				if (dev)
+					for (String[] row : wins) {
+						for (String str : row) {
+							if (str == "X") {
+								score1++;
+							} else if (str == "O") {
+								score2++;
+							}
+						}
+					}
 			}
-			b.print(wins);
-			if (winner(wins) == "X") {
-				total1++;
-				System.out.println("X wins");
-			} else if (winner(wins) == "O") {
-				total2++;
-				System.out.println("O wins");
-			} else {
-				total3++;
-				System.out.println("Tie Game");
+			if (dev && round == 0) {
+				firstScore1 = score1;
+				firstScore2 = score2;
+				firstTotal1 = total1;
+				firstTotal2 = total2;
 			}
 		}
 		if (dev) {
 			System.out.println("Player 1 wins:" + total1);
 			System.out.println("Player 2 wins:" + total2);
 			System.out.println("Ties:" + total3);
+			System.out.println("Score 1:" + (score1 + (total1 * 5)));
+			System.out.println("Average Score 1:" + ((double) score1 / games));
+			System.out.println("Score 2:" + (score2 + (total2 * 5)));
+			System.out.println("Average Score 2:" + ((double) score2 / games));
+			if (score1 + (total1 * 5) > score2 + (total2 * 5)) {
+				System.out.println("Player 1 better");
+			} else if (score1 + (total1 * 5) < score2 + (total2 * 5)) {
+				System.out.println("Player 2 better");
+			} else {
+				System.out.println("TIE");
+			}
+			System.out.println();
+			System.out.println("When player 1 had a lead");
+			System.out.println("Score 1:" + (firstScore1 + (firstTotal1 * 5)));
+			System.out.println("Average Score 1:" + (2 * (double) firstScore1 / games));
+			System.out.println("Score 2:" + (firstScore2 + (firstTotal2 * 5)));
+			System.out.println("Average Score 2:" + (2 * (double) firstScore2 / games));
 		}
 		s.close();
 	}
