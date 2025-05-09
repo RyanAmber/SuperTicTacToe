@@ -19,7 +19,7 @@ public class TicTacToeGame {
 				e.printStackTrace();
 			}
 		} else if (player == 3 || player == 4) {
-			int score = -1000;
+			int score = -10000;
 			int max = score;
 			List<Integer> possible = new ArrayList<Integer>();
 			for (int i = 1; i <= 9; i++) {
@@ -35,7 +35,7 @@ public class TicTacToeGame {
 						possible.add(i);
 					}
 				}else if(timer==0) {
-					System.out.println("   ");
+					System.out.print("   ");
 				}
 				if (i%3==0&&timer==0) {
 					System.out.println();
@@ -77,11 +77,12 @@ public class TicTacToeGame {
 				answer = (int) (Math.random() * 9 + 1);
 			}
 		} else if (player == 3 || player == 4) {
-			int topScore = -500;
+			int topScore = -5000;
 			List<Integer> options = new ArrayList<Integer>();
 			for (int i = 1; i <= 9; i++) {
 				if (valid.contains(i)) {
 					int attempt = b.cornerScore(i, player, team, wins);
+					System.out.print(attempt+" "+i+" ");
 					if (attempt > topScore) {
 						options.clear();
 						options.add(i);
@@ -91,6 +92,7 @@ public class TicTacToeGame {
 					}
 				}
 			}
+			
 			answer = options.get((int) (Math.random() * options.size()));
 		}
 		return answer;
@@ -173,7 +175,6 @@ public class TicTacToeGame {
 				} else if (winner(wins) == "O") {
 					total2++;
 					System.out.println("O wins");
-
 				} else {
 					total3++;
 					System.out.println("Tie Game");
@@ -201,9 +202,9 @@ public class TicTacToeGame {
 			System.out.println("Player 2 wins:" + total2);
 			System.out.println("Ties:" + total3);
 			System.out.println("Score 1:" + (score1 + (total1 * 5)));
-			System.out.println("Average Score 1:" + ((double) score1 / games));
+			System.out.println("Average Score 1:" + ((double) (score1 + (total1 * 5)) / games));
 			System.out.println("Score 2:" + (score2 + (total2 * 5)));
-			System.out.println("Average Score 2:" + ((double) score2 / games));
+			System.out.println("Average Score 2:" + ((double) (score2 + (total1 * 5)) / games));
 			if (score1 + (total1 * 5) > score2 + (total2 * 5)) {
 				System.out.println("Player 1 better");
 			} else if (score1 + (total1 * 5) < score2 + (total2 * 5)) {

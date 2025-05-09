@@ -218,6 +218,28 @@ public class TicTacToeBoard {
 		score += check(arr, team, type);
 		return score;
 	}
+	private int calcWorth(String[][] wins, int corner,String team) {
+		int worth=0;
+		if (corner==5) {
+			worth=6;
+			for (int board=1;board<10;board++) {
+				if (board!=5&&wins[(board-1)/3][(board-1)%3].equals(team)&&wins[(10-board-1)/3][(10-board-1)%3].equals(team)) {
+					worth++;
+					System.out.println("SCORE");
+					//System.exit(0);
+				}else if(board!=5&&wins[(board-1)/3][(board-1)%3].equals(team)&&wins[(10-board-1)/3][(10-board-1)%3].equals(" ")) {
+					worth++;
+					System.out.println("PART WAY");
+					//System.exit(0);
+				}
+			}
+		}else if(corner%2==1) {
+			worth=4;
+		}else {
+			worth=2;
+		}
+		return worth;
+	}
 
 	public int score(String[][] wins, int corner, int move, int player, String team) {
 		TicTacToeBoard test = new TicTacToeBoard(this);
@@ -270,7 +292,7 @@ public class TicTacToeBoard {
 			int j = corner % 3;
 			int worth = 2;
 			if (corner + 1 == 5) {
-				worth = 5;
+				worth = calcWorth(wins,corner+1,team);
 			} else if (corner % 2 == 0) {
 				worth = 3;
 			}
@@ -281,7 +303,7 @@ public class TicTacToeBoard {
 			score += cornerCheck(i, j, test, team, 1) * worth;
 			worth = 2;
 			if (move == 5) {
-				worth = 5;
+				worth = calcWorth(wins,move,team);
 			} else if (move % 2 == 1) {
 				worth = 3;
 			}
@@ -314,7 +336,7 @@ public class TicTacToeBoard {
 			score += 200;
 		}
 		if (player == 4)
-			score += 4 * boardCheck(newWins, team, 1);
+			score += 10 * boardCheck(newWins, team, 1);
 		newWins[(corner - 1) / 3][(corner - 1) % 3] = team.equals("X") ? "O" : "X";
 		if (TicTacToeGame.winner(newWins).equals(team.equals("X") ? "O" : "X")) {
 			score -= 100;
