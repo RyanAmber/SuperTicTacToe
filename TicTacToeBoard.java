@@ -129,6 +129,8 @@ public class TicTacToeBoard {
 				return 10;
 			else if (type == 2)
 				return -10;
+			else if (type == 4)
+				return 100000000;
 			else
 				return 20;
 		} else if (sum(arr, team) == -2) {
@@ -224,7 +226,7 @@ public class TicTacToeBoard {
 			worth=6;
 			for (int board=1;board<10;board++) {
 				if (board!=5&&wins[(board-1)/3][(board-1)%3].equals(team)&&wins[(10-board-1)/3][(10-board-1)%3].equals(team)) {
-					worth++;
+					worth+=2;
 					System.out.println("SCORE");
 					//System.exit(0);
 				}else if(board!=5&&wins[(board-1)/3][(board-1)%3].equals(team)&&wins[(10-board-1)/3][(10-board-1)%3].equals(" ")) {
@@ -235,6 +237,10 @@ public class TicTacToeBoard {
 			}
 		}else if(corner%2==1) {
 			worth=4;
+			worth+=sum(wins[corner/3],team);
+			if (corner>5) {
+				
+			}
 		}else {
 			worth=2;
 		}
@@ -331,6 +337,7 @@ public class TicTacToeBoard {
 				newWins[i][j] = wins[i][j];
 			}
 		}
+		if (cornerCheck((corner-1)/3, (corner - 1) % 3,this,team,4)>10000)
 		newWins[(corner - 1) / 3][(corner - 1) % 3] = team;
 		if (TicTacToeGame.winner(newWins).equals(team)) {
 			score += 200;

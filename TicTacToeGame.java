@@ -25,8 +25,8 @@ public class TicTacToeGame {
 			for (int i = 1; i <= 9; i++) {
 				if (b.isValid(corner, i)) {
 					score = b.score(wins, corner, i, player, team);
-					if (timer==0)
-					System.out.print(score+" ");
+					if (timer == 0)
+						System.out.print(score + " ");
 					if (score > max) {
 						possible = new ArrayList<Integer>();
 						possible.add(i);
@@ -34,13 +34,55 @@ public class TicTacToeGame {
 					} else if (score == max) {
 						possible.add(i);
 					}
-				}else if(timer==0) {
+				} else if (timer == 0) {
 					System.out.print("   ");
 				}
-				if (i%3==0&&timer==0) {
+				if (i % 3 == 0 && timer == 0) {
 					System.out.println();
 				}
 			}
+			if (possible.size() == 0) {
+				return -1;
+			}
+			answer = possible.get((int) (Math.random() * possible.size()));
+			try {
+				Thread.sleep(timer);
+			} catch (InterruptedException e) {
+				e.printStackTrace();
+			}
+		} else if (player == 5) {
+			int score = -100000;
+			int max = score;
+			List<Integer> possible = new ArrayList<Integer>();
+			for (int i = 0; i < 9; i++) {
+				TicTacToeBoard save1 = new TicTacToeBoard(b);
+				if (save1.isValid(corner, i)) {
+					save1.makeMove(corner, i, team);
+					score = save1.score(wins, corner, i, 4, team);
+					for (int j = 0; j < 9; j++) {
+						TicTacToeBoard save2 = new TicTacToeBoard(save1);
+						if (save2.isValid(i, j)) {
+							save2.makeMove(i, j, (team == "X" ? "O" : "X"));
+							score -= save2.score(wins, i, j, 4, team);
+							for (int k = 0; k < 9; k++) {
+								TicTacToeBoard save3 = new TicTacToeBoard(save2);
+								if (save3.isValid(j, k)) {
+									save3.makeMove(j, k, team);
+									score += save3.score(wins, j, k, 4, team);
+									if (score > max) {
+										possible = new ArrayList<Integer>();
+										possible.add(i);
+										max = score;
+									} else if (score == max) {
+										possible.add(i);
+									}
+								}
+							}
+						}
+					}
+				}
+			}
+			System.out.println(max);
 			if (possible.size() == 0) {
 				return -1;
 			}
@@ -82,7 +124,7 @@ public class TicTacToeGame {
 			for (int i = 1; i <= 9; i++) {
 				if (valid.contains(i)) {
 					int attempt = b.cornerScore(i, player, team, wins);
-					System.out.print(attempt+" "+i+" ");
+					System.out.print(attempt + " " + i + " ");
 					if (attempt > topScore) {
 						options.clear();
 						options.add(i);
@@ -92,7 +134,7 @@ public class TicTacToeGame {
 					}
 				}
 			}
-			
+
 			answer = options.get((int) (Math.random() * options.size()));
 		}
 		return answer;
