@@ -51,47 +51,63 @@ public class TicTacToeGame {
 				e.printStackTrace();
 			}
 		} else if (player == 5) {
-			int score = -100000;
-			int max = score;
-			List<Integer> possible = new ArrayList<Integer>();
-			for (int i = 0; i < 9; i++) {
-				TicTacToeBoard save1 = new TicTacToeBoard(b);
-				if (save1.isValid(corner, i)) {
-					save1.makeMove(corner, i, team);
-					score = save1.score(wins, corner, i, 4, team);
-					for (int j = 0; j < 9; j++) {
-						TicTacToeBoard save2 = new TicTacToeBoard(save1);
-						if (save2.isValid(i, j)) {
-							save2.makeMove(i, j, (team == "X" ? "O" : "X"));
-							score -= save2.score(wins, i, j, 4, team);
-							for (int k = 0; k < 9; k++) {
-								TicTacToeBoard save3 = new TicTacToeBoard(save2);
-								if (save3.isValid(j, k)) {
-									save3.makeMove(j, k, team);
-									score += save3.score(wins, j, k, 4, team);
-									if (score > max) {
-										possible = new ArrayList<Integer>();
-										possible.add(i);
-										max = score;
-									} else if (score == max) {
-										possible.add(i);
-									}
-								}
-							}
-						}
-					}
-				}
+			int max = Integer.MIN_VALUE;
+			List<Integer> possible = new ArrayList<>();
+
+			for (int i = 1; i <= 9; i++) {
+			    if (!b.isValid(corner, i)) continue;
+
+			    TicTacToeBoard save1 = new TicTacToeBoard(b);
+			    save1.makeMove(corner, i, team);
+			    
+			    int score1 = save1.score(wins, corner, i, 4, team);
+
+			    int worstCaseScore = Integer.MIN_VALUE;
+
+			    for (int j = 1; j <= 9; j++) {
+			        if (!save1.isValid(i, j)) continue;
+
+			        TicTacToeBoard save2 = new TicTacToeBoard(save1);
+			        String opponent = team.equals("X") ? "O" : "X";
+			        save2.makeMove(i, j, opponent);
+
+			        int score2 = save2.score(wins, i, j, 4, opponent);
+
+			        int bestResponseScore = Integer.MIN_VALUE;
+
+			        for (int k = 1; k <= 9; k++) {
+			            if (!save2.isValid(j, k)) continue;
+
+			            TicTacToeBoard save3 = new TicTacToeBoard(save2);
+			            save3.makeMove(j, k, team);
+
+			            int score3 = save3.score(wins, j, k, 4, team);
+
+			            int combinedScore = score1 - score2 + score3;
+			            System.out.printf("Team:%s  Path: %d → %d → %d | Scores: %d + %d + %d = %d\n",
+			                    team, i, j, k, score1, score2, score3, combinedScore);
+
+			            bestResponseScore = Math.max(bestResponseScore, combinedScore);
+			        }
+
+			        worstCaseScore = Math.max(worstCaseScore, bestResponseScore);
+			    }
+
+			    if (worstCaseScore > max) {
+			        max = worstCaseScore;
+			        possible.clear();
+			        possible.add(i);
+			    } else if (worstCaseScore == max) {
+			        possible.add(i);
+			    }
 			}
-			System.out.println(max);
-			if (possible.size() == 0) {
-				return -1;
+			if (possible.size() > 0) {
+			    answer = possible.get((int) (Math.random() * possible.size()));
+			} else {
+			    return -1;
 			}
-			answer = possible.get((int) (Math.random() * possible.size()));
-			try {
-				Thread.sleep(timer);
-			} catch (InterruptedException e) {
-				e.printStackTrace();
-			}
+
+
 		}
 		return answer;
 	}
@@ -118,7 +134,7 @@ public class TicTacToeGame {
 			while (!valid.contains(answer)) {
 				answer = (int) (Math.random() * 9 + 1);
 			}
-		} else if (player == 3 || player == 4) {
+		} else if (player == 3 || player == 4||player==5) {
 			int topScore = -5000;
 			List<Integer> options = new ArrayList<Integer>();
 			for (int i = 1; i <= 9; i++) {
@@ -141,7 +157,6 @@ public class TicTacToeGame {
 	}
 
 	public static void main(String[] args) {
-		// TODO Auto-generated method stub
 		String[][] wins = new String[3][3];
 		for (int i = 0; i < 3; i++) {
 			for (int j = 0; j < 3; j++) {
@@ -240,8 +255,8 @@ public class TicTacToeGame {
 			}
 		}
 		if (dev) {
-			System.out.println("Player 1 wins:" + total1);
-			System.out.println("Player 2 wins:" + total2);
+			System.out.println("Player 1 wins:" + total1+ " type"+p1);
+			System.out.println("Player 2 wins:" + total2+" type"+p2);
 			System.out.println("Ties:" + total3);
 			System.out.println("Score 1:" + (score1 + (total1 * 5)));
 			System.out.println("Average Score 1:" + ((double) (score1 + (total1 * 5)) / games));

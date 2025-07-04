@@ -227,12 +227,8 @@ public class TicTacToeBoard {
 			for (int board=1;board<10;board++) {
 				if (board!=5&&wins[(board-1)/3][(board-1)%3].equals(team)&&wins[(10-board-1)/3][(10-board-1)%3].equals(team)) {
 					worth+=2;
-					System.out.println("SCORE");
-					//System.exit(0);
 				}else if(board!=5&&wins[(board-1)/3][(board-1)%3].equals(team)&&wins[(10-board-1)/3][(10-board-1)%3].equals(" ")) {
 					worth++;
-					System.out.println("PART WAY");
-					//System.exit(0);
 				}
 			}
 		}else if(corner%2==1) {
