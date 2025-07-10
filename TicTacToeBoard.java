@@ -320,6 +320,16 @@ public class TicTacToeBoard {
 	}
 
 	public int cornerScore(int corner, int player, String team, String[][] wins) {
+		if( player ==6){
+			int max=Integer.MIN_VALUE;
+			for (int i=1;i<10;i++){
+				if (!isValid(corner, i)) {
+					continue;
+				}
+				max=Math.max(max,score(wins,corner,i,4,team));
+			}
+			return max;
+		}
 		int score = 0;
 		score += cornerCheck((corner - 1) / 3, (corner - 1) % 3, this, team, 3);
 		if (corner == 5) {
@@ -337,6 +347,7 @@ public class TicTacToeBoard {
 		newWins[(corner - 1) / 3][(corner - 1) % 3] = team;
 		if (TicTacToeGame.winner(newWins).equals(team)) {
 			score += 200;
+			System.out.println("Winning Chance!");
 		}
 		if (player == 4)
 			score += 10 * boardCheck(newWins, team, 1);

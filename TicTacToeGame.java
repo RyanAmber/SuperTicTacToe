@@ -18,13 +18,13 @@ public class TicTacToeGame {
 			} catch (InterruptedException e) {
 				e.printStackTrace();
 			}
-		} else if (player == 3 || player == 4) {
+		} else if (player == 3 || player == 4||player==6) {
 			int score = -10000;
 			int max = score;
 			List<Integer> possible = new ArrayList<Integer>();
 			for (int i = 1; i <= 9; i++) {
 				if (b.isValid(corner, i)) {
-					score = b.score(wins, corner, i, player, team);
+					score = b.score(wins, corner, i, player>=4?4:player, team);
 					if (timer == 0)
 						System.out.print(score + " ");
 					if (score > max) {
@@ -134,7 +134,7 @@ public class TicTacToeGame {
 			while (!valid.contains(answer)) {
 				answer = (int) (Math.random() * 9 + 1);
 			}
-		} else if (player == 3 || player == 4||player==5) {
+		} else if (player >=3) {
 			int topScore = -5000;
 			List<Integer> options = new ArrayList<Integer>();
 			for (int i = 1; i <= 9; i++) {
