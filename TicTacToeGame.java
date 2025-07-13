@@ -235,6 +235,7 @@ public class TicTacToeGame {
 				} else {
 					total3++;
 					System.out.println("Tie Game");
+					//System.exit(0);
 				}
 				if (dev)
 					for (String[] row : wins) {

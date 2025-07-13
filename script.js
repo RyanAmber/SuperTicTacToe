@@ -1,9 +1,8 @@
-document.getElementById('signin-form').addEventListener('submit', function(event) {
+document.getElementById('gameSetupForm').addEventListener('submit', function(event) {
 event.preventDefault();
 
-const email = document.getElementById('email').value.trim();
-const password = document.getElementById('password').value.trim();
-const message = document.getElementById('message');
+const player1 = document.getElementById('player1').value.trim();
+const player2 = document.getElementById('player2').value.trim();
 
 // Fake validation logic for demonstration
 if (email === "user@example.com" && password === "password123") {
@@ -13,4 +12,23 @@ message.textContent = "Sign-in successful!";
 message.style.color = "red";
 message.textContent = "Invalid email or password.";
 }
+});
+document.addEventListener('DOMContentLoaded', function() {
+  const modal = document.getElementById('rulesModal');
+  const btn = document.getElementById('rules');
+  const span = document.querySelector('.close');
+
+  btn.onclick = function() {
+    modal.style.display = 'block';
+  }
+
+  span.onclick = function() {
+    modal.style.display = 'none';
+  }
+
+  window.onclick = function(event) {
+    if (event.target == modal) {
+      modal.style.display = 'none';
+    }
+  }
 });

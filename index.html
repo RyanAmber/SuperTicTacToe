@@ -7,8 +7,34 @@
 <link rel="stylesheet" href="style.css">
 </head>
 <body>
-<h2>Log In</h2>
-
-<script src="script.js"></script>
+  <div class="center-container">
+    <form id="gameSetupForm">
+      <div class="player-selection">
+        <h1>Select Players</h1>
+        <label for="player1">Player 1:</label>
+        <input type="text" id="player1" name="player1" required>
+        <label for="player2">Player 2:</label>
+        <input type="text" id="player2" name="player2" required>
+      </div>
+      <button type="submit">Start Game</button>
+    </form>
+    <div class="rules-container">
+      <button id="rules" class="rules-btn">Rules</button>
+    </div>
+  </div>
+  <script src="script.js"></script>
+  <div id="rulesModal" class="modal">
+  <div class="modal-content">
+    <span class="close">&times;</span>
+    <h2>Game Rules</h2>
+    <ul>
+      <li>Players take turns marking a square.</li>
+      <li>The first to get three in a row wins the board.</li>
+      <li>Win three boards in a row to win the game.</li>
+      <li>Each move determines the next board the opponent must play on.</li>
+      <li>If a board is full, the next player can play anywhere.</li>
+    </ul>
+  </div>
+</div>
 </body>
 </html>
