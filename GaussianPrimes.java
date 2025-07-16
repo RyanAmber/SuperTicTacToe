@@ -2,30 +2,22 @@ import java.util.Scanner;
 
 public class GaussianPrimes{
     public static void main(String[] args)
-    {
-        Scanner scanner = new Scanner(System.in);
-        //System.out.println("Enter a Gaussian integer form of ai+b");
-        //System.out.println("a:");
-        //int a = scanner.nextInt();
-        System.out.println("Max Distance:");
-        int max = scanner.nextInt();
-        for (int k=1;k<=b;k++){
-            int primes=0;
-        //int total=0;
-        for (int i=-k; i <= k; i++) {
-            for (int j=-k; j <= k; j++) {
-                //total++;
-                if (isGaussianPrime(i, j)) {
-                    //System.out.println("Gaussian prime: " + i + "i + " + j);
-                    primes++;
-                }
+{
+    Scanner scanner = new Scanner(System.in);
+    System.out.println("Max Norm:");
+    int maxNorm = scanner.nextInt();
+    int primes = 0;
+    int limit = (int)Math.ceil(Math.sqrt(maxNorm));
+    for (int a = -limit; a <= limit; a++) {
+        for (int b = -limit; b <= limit; b++) {
+            int norm = a * a + b * b;
+            if (norm <= maxNorm && isGaussianPrime(a, b)) {
+                primes++;
             }
         }
-        //System.out.println("Total Gaussian integers checked from " + -a + "i + " + -b + " to " + a + "i + " + b + ": " + total);
-        //System.out.println("Total Gaussian primes found: " + primes);
-        System.out.println(primes);
-        }
     }
+    System.out.println(primes);
+}
 
     // Determines if a Gaussian integer a+bi is prime
     public static boolean isGaussianPrime(int a, int b) {
