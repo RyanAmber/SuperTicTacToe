@@ -4,18 +4,26 @@ public class GaussianPrimes{
     public static void main(String[] args)
     {
         Scanner scanner = new Scanner(System.in);
-        System.out.println("Enter a Gaussian integer form of ai+b");
-        System.out.println("a:");
-        int a = scanner.nextInt();
-        System.out.println("b:");
-        int b = scanner.nextInt();
-
-        System.out.println("Parsed Gaussian integer: " + a + "i + " + b);
-
-        if (isGaussianPrime(a, b)) {
-            System.out.println(a + "i + " + b + " is a Gaussian prime.");
-        } else {
-            System.out.println(a + "i + " + b + " is NOT a Gaussian prime.");
+        //System.out.println("Enter a Gaussian integer form of ai+b");
+        //System.out.println("a:");
+        //int a = scanner.nextInt();
+        System.out.println("Max Distance:");
+        int max = scanner.nextInt();
+        for (int k=1;k<=b;k++){
+            int primes=0;
+        //int total=0;
+        for (int i=-k; i <= k; i++) {
+            for (int j=-k; j <= k; j++) {
+                //total++;
+                if (isGaussianPrime(i, j)) {
+                    //System.out.println("Gaussian prime: " + i + "i + " + j);
+                    primes++;
+                }
+            }
+        }
+        //System.out.println("Total Gaussian integers checked from " + -a + "i + " + -b + " to " + a + "i + " + b + ": " + total);
+        //System.out.println("Total Gaussian primes found: " + primes);
+        System.out.println(primes);
         }
     }
 
@@ -24,10 +32,8 @@ public class GaussianPrimes{
         int norm = a * a + b * b;
         if (a == 0 || b == 0) {
             int val = Math.abs(a == 0 ? b : a);
-            // If either part is zero, check if absolute value is prime and ≡ 3 mod 4
             return isPrime(val) && val % 4 == 3;
         } else {
-            // If both parts are nonzero, check if norm is prime
             return isPrime(norm);
         }
     }
