@@ -1,6 +1,6 @@
 body {
 font-family: Arial, sans-serif;
-background: linear-gradient(to bottom, #ff3131,#ff883d);
+background: linear-gradient(to bottom, #228b22,#2f4f4f);
 display: flex;
 justify-content: center;
 align-items: center;
@@ -15,7 +15,7 @@ margin: 0;
 .player-selection {
   width: 300px;
   text-align: center;
-  background: linear-gradient(to bottom, #ff3131,#ff883d);
+  background: linear-gradient(to bottom, #228b22,#2f4f4f);
   box-shadow: 0 4px 16px rgba(0,0,0,0.10);
   padding: 2rem 1.5rem;
 }
