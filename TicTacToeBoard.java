@@ -321,7 +321,7 @@ public class TicTacToeBoard {
 
 	public int cornerScore(int corner, int player, String team, String[][] wins) {
 		int score=0;
-		if( player ==6){
+		if( player ==7){
 			score=Integer.MIN_VALUE;
 			for (int i=1;i<10;i++){
 				if (!isValid(corner, i)) {
