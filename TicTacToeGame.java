@@ -1,5 +1,3 @@
-//package SuperTicTacToe;
-
 import java.util.*;
 
 public class TicTacToeGame {
@@ -139,7 +137,7 @@ public class TicTacToeGame {
 			List<Integer> options = new ArrayList<Integer>();
 			for (int i = 1; i <= 9; i++) {
 				if (valid.contains(i)) {
-					int attempt = b.cornerScore(i, player, team, wins);
+					int attempt = b.cornerScore(i, player>=4?4:player, team, wins);
 					System.out.print(attempt + " " + i + " ");
 					if (attempt > topScore) {
 						options.clear();

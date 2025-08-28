@@ -1,5 +1,3 @@
-//package SuperTicTacToe;
-
 public class TicTacToeBoard {
 	private String[][][][] grid;
 
@@ -321,13 +319,14 @@ public class TicTacToeBoard {
 
 	public int cornerScore(int corner, int player, String team, String[][] wins) {
 		int score=0;
-		if( player ==7){
+		if( player ==6){
+			player=4;
 			score=Integer.MIN_VALUE;
 			for (int i=1;i<10;i++){
 				if (!isValid(corner, i)) {
 					continue;
 				}
-				score=Math.max(score,score(wins,corner,i,4,team));
+				score=Math.max(score,score(wins,corner,i,player,team))/10;
 			}
 		}
 		score += cornerCheck((corner - 1) / 3, (corner - 1) % 3, this, team, 3);
